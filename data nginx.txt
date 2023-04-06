@@ -1,0 +1,20 @@
+user root;
+events {
+ worker_connections 4096; ## Default: 1024
+}
+http {
+ server {
+ listen 443 ssl;
+server_name unifyai-integration-toolkit.datasciencewizards.ai;
+client_max_body_size 200M;
+
+ssl_certificate /etc/nginx/ssl/datasciencewizards.ai.crt;
+ssl_certificate_key /etc/nginx/ssl/datasciencewizards.key;
+
+location / {
+proxy_pass http://127.0.0.1:8000;
+proxy_set_header Cookie $http_ccokie;  # if you use Airbytes basic auth
+proxy_read_timeout 3600;  # set a number in seconds suitable for you
+ }
+ }
+}
